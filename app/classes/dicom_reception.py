@@ -3,6 +3,6 @@ from pydicom import dcmread
 
 class DicomReception(Filter):
     def run(self, data, context):
-        dicom = 'testDicom.dcm'
+        dicom = dcmread('testDicom.dcm')
 
         return dicom

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from pydicom import dataset
+from pydicom import FileDataset
 
 class DicomModel(BaseModel):
-    dicom: dataset
+    dicom: FileDataset
