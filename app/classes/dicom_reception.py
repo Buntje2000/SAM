@@ -1,8 +1,8 @@
-from pipelayer import Filter
 from pydicom import dcmread
 
-class DicomReception(Filter):
-    def run(self, data, context):
-        dicom = dcmread('testDicom.dcm')
 
-        return dicom
+class DicomReception():
+    def get_dicom(path):
+        dicomFile = dcmread(path)
+
+        return dicomFile
