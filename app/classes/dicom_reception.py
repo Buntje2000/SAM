@@ -1,7 +1,7 @@
 from pydicom import dcmread
 
 
-class DicomReception():
+class DicomReception:
     def get_dicom(path):
         dicomFile = dcmread(path)
 
