@@ -7,4 +7,4 @@ start_time = time.time()
 # Start pipeline
 start()
 
-print("--- %s seconds ---" % round(time.time() - start_time, 3))
+print("--- Looptijd: %s seconden ---" % round(time.time() - start_time, 3))

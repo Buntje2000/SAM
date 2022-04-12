@@ -11,6 +11,9 @@ def start():
     patientInfo = PatientInfoExtraction.get_patient_info(dicomFile)
 
     # Meta
-    locations = SearchInMeta.search_for_patient_info(
+    metaFields = SearchInMeta.search_for_patient_info(
         dicomFile, patientInfo)
-    # ManipulateMeta.delete_patient_info_from_meta(locations)
+    cleanMeta = ManipulateMeta.delete_patient_info_from_meta(
+        metaFields, dicomFile)
+    cleanMeta.save_as("testDicom2.dcm")
+    # print(cleanMeta)
