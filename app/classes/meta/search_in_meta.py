@@ -22,17 +22,30 @@ class SearchInMeta:
 
                 if patientName.family_name in str(elem.value):
                     itemsFound += 1
-                    newString = str(elem.value).replace(
-                        patientName.family_name, '***')
-                    anonimyzedFields.append(
-                        [elem.tag,
-                            newString]
-                    )
 
-                elif patientInfo.patient_id in str(elem.value):
+                    if str(elem.tag) == '(0010, 0010)':
+                        newString = str(elem.value).replace(
+                            str(patientName), '**name**')
+
+                        anonimyzedFields.append(
+                            [elem.tag,
+                             newString]
+                        )
+                    else:
+                        newString = str(elem.value).replace(
+                            patientName.family_name, '**name**')
+
+                        anonimyzedFields.append(
+                            [elem.tag,
+                             newString]
+                        )
+
+                if patientInfo.patient_id in str(elem.value):
                     itemsFound += 1
+
                     newString = str(elem.value).replace(
-                        patientInfo.patient_id, '123456789')
+                        patientInfo.patient_id, '**id**')
+
                     anonimyzedFields.append(
                         [elem.tag,
                          newString]

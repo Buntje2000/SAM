@@ -7,15 +7,15 @@ from app.classes.meta.search_in_meta import SearchInMeta
 
 def start():
     # Get Dicom
-    dicomFile = DicomReception.get_dicom("testDicom.dcm")
+    dicomFile = DicomReception.get_dicom("testDicom2.dcm")
     patientInfo = PatientInfoExtraction.get_patient_info(dicomFile)
 
     # Meta
     metaFields = SearchInMeta.search_for_patient_info(
         dicomFile, patientInfo)
+    print(metaFields)
     cleanMeta = ManipulateMeta.delete_patient_info_from_meta(
         metaFields, dicomFile)
     cleanMeta.save_as("testDicomAnonimyzed.dcm")
-    # print(cleanMeta)
 
     # Image
