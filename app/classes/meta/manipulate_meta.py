@@ -1,9 +1,22 @@
-from pipelayer import Filter
+from pydicom import FileDataset
 
 
-class ManipulateMeta(Filter):
-    def run(self, data, context):
+class ManipulateMeta():
+    def delete_patient_info_from_meta(metaFields, dicomFile: FileDataset):
+        dicom = dicomFile
 
-        _patientName = data.meta
+        itemsChanged = 0
 
-        return _patientName
+        for x in metaFields:
+            itemsChanged += 1
+
+            tag = str(x[0])
+            tag1, tag2 = tag.split(", ")
+            tagD1 = "0x" + tag1.replace("(", "")
+            tagD2 = "0x" + tag2.replace(")", "")
+
+            dicom[tagD1, tagD2].value = x[1]
+
+        print("--- Aantal items geannonimiseerd:", itemsChanged, "---")
+
+        return dicom

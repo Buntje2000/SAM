@@ -1,20 +1,19 @@
-from pipelayer import Filter
+from pydicom import FileDataset
 from app.models.patient_model import PatientModel
 
 
-class PatientInfoExtraction(Filter):
-    def run(self, dicom):
+class PatientInfoExtraction:
+    def get_patient_info(dicomFile: FileDataset) -> PatientModel:
 
-        _patientInfo = self.get_patient_info(dicom)
+        dicom = dicomFile
 
-        return _patientInfo
-
-    def get_patient_info(self, data) -> PatientModel:
-
-        dicom = data
+        if(dicom.PatientBirthDate != ''):
+            dob = dicom.dicom[0x0010, 0x0030].value
+        else:
+            dob = None
 
         return PatientModel(
-            patient_name=dicom.PatientName,
-            patient_id=dicom.PatientID,
-            patient_dob=dicom.PatientBirthDate
+            patient_name=dicom[0x0010, 0x0010].value,
+            patient_id=dicom[0x0010, 0x0020].value,
+            patient_dob=dob
         )
