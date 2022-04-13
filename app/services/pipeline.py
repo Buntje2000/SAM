@@ -15,5 +15,7 @@ def start():
         dicomFile, patientInfo)
     cleanMeta = ManipulateMeta.delete_patient_info_from_meta(
         metaFields, dicomFile)
-    cleanMeta.save_as("testDicom2.dcm")
+    cleanMeta.save_as("testDicomAnonimyzed.dcm")
     # print(cleanMeta)
+
+    # Image
