@@ -1,10 +1,10 @@
-import pydicom
+from pydicom import FileDataset
 import pydicom.valuerep
 from app.models.patient_model import PatientModel
 
 
 class SearchInMeta:
-    def search_for_patient_info(dicom: pydicom.FileDataset, patientInfo: PatientModel):
+    def search_for_patient_info(dicom: FileDataset, patientInfo: PatientModel):
         count = 0
         itemsSearched = 0
         itemsFound = 0

@@ -2,3 +2,7 @@ pydicom==2.3.0
 pytest==7.1.1
 pytest-cov==3.0.0
 dicomgenerator==0.4.0
+pillow==9.1.0
+numpy==1.22.3
+pytesseract==0.3.9
+opencv-python==4.5.5.64
