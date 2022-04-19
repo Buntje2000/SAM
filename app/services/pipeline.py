@@ -1,4 +1,3 @@
-from multiprocessing.connection import wait
 from app.classes.dicom_reception import DicomReception
 from app.classes.image.manipulate_pixels import ManipulatePixels
 from app.classes.image.pre_process_image import PreProcessImage
@@ -22,7 +21,7 @@ def start():
     cleanMeta.save_as("testDicomAnonimyzed.dcm")
 
     # Image
-    image = PreProcessImage.image_to_array(cleanMeta)
+    image = PreProcessImage.image_to_array(dicomFile)
     processed_image = PreProcessImage.pre_process_image(image)
     recognized = RecognizeText.recognize_text(
         processed_image, patientInfo, image)

@@ -6,3 +6,4 @@ pillow==9.1.0
 numpy==1.22.3
 pytesseract==0.3.9
 opencv-python==4.5.5.64
+pydantic==1.9.0

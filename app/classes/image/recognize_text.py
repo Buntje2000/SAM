@@ -66,7 +66,7 @@ class RecognizeText:
                             1.5, (0, 255, 255), 2)
 
         # show the output image
-        # cv2.imshow("Image", original_size)
+        # cv2.imshow("Image", image)
         # cv2.waitKey(0)
 
         return image
