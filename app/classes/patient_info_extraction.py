@@ -1,5 +1,7 @@
 from pydicom import FileDataset
 from app.models.patient_model import PatientModel
+import logging
+
 
 
 class PatientInfoExtraction:
@@ -12,8 +14,13 @@ class PatientInfoExtraction:
         else:
             dob = None
 
-        return PatientModel(
-            patient_name=dicom[0x0010, 0x0010].value,
-            patient_id=dicom[0x0010, 0x0020].value,
-            patient_dob=dob
-        )
+        try:
+            patientModel = PatientModel(
+                patient_name=dicom[0x0010, 0x0010].value,
+                patient_id=dicom[0x0010, 0x0020].value,
+                patient_dob=dob
+            )
+        except:
+            logging.error("PatientModel extraction could not be completed!")
+
+        return patientModel

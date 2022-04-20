@@ -3,8 +3,9 @@ import time
 
 from app.services.pipeline import start
 
-logging.basicConfig(filename='test.log', level=logging.DEBUG,
-                    format='%(asctime)s:%(levelname)s:%(message)s')
+logging.basicConfig(filename='logging.log', level=logging.DEBUG,
+                    format='%(asctime)s:%(levelname)s:%(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 
 start_time = time.time()
 
