@@ -7,7 +7,7 @@ from pydicom.encaps import encapsulate
 
 
 class ManipulatePixels:
-    def manipulate_pixels(image, ds: FileDataset):
+    def save_image(image, ds: FileDataset):
         num_frames = 1
         # Convert to PIL
         imlist = []
@@ -41,6 +41,8 @@ class ManipulatePixels:
         ds.LossyImageCompression = '01'
         ds.LossyImageCompressionRatio = 10  # default jpeg
         ds.LossyImageCompressionMethod = 'ISO_10918_1'
-        ds.file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.51'
+        ds.file_meta.TransferSyntaxUID = '1.2.840.10008.1.2.4.70'
 
-        ds.save_as("output-jpeg.dcm", write_like_original=False)
+        ds.save_as("output-jpeg.dcm", write_like_original=True)
+
+        print("Image saved")

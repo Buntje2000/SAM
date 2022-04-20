@@ -18,7 +18,7 @@ class RecognizeText:
         for i in range(0, len(results["text"])):
             # extract the bounding box coordinates of the text region from
             # the current result
-            if str.lower('AORTA') in str.lower(results["text"][i]):
+            if str.lower('64') in str.lower(results["text"][i]):
                 t = results["text"][i]
                 x = results["left"][i]
                 y = results["top"][i]
@@ -54,6 +54,7 @@ class RecognizeText:
                 # print(searchResults)
                 print("Confidence: {}".format(conf))
                 print("Text: {}".format(text))
+                print("Coördinates:", x, y, w, h, "(x, y, w, h)")
                 print("")
                 # strip out non-ASCII text so we can draw the text on the image
                 # using OpenCV, then draw a bounding box around the text along
