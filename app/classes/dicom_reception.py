@@ -3,9 +3,10 @@ from pydicom import dcmread
 
 class DicomReception:
     def get_dicom(path):
-        dicomFile = dcmread(path)
+        '''
+        This function receives a dicom file from a certain path and returns a FileDataset
+        '''
 
-        # if dicomFile.file_meta.TransferSyntaxUID.is_compressed is True:
-        #     dicomFile.decompress()
+        dicomFile = dcmread(path)
 
         return dicomFile
