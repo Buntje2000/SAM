@@ -1,8 +1,9 @@
-from app.classes.dicom_reception import DicomReception
+import time
+from app.classes.services.dicom_reception import DicomReception
 from app.classes.image.manipulate_pixels import ManipulatePixels
 from app.classes.image.pre_process_image import PreProcessImage
 from app.classes.image.recognize_text import RecognizeText
-from app.classes.patient_info_extraction import PatientInfoExtraction
+from app.classes.services.patient_info_extraction import PatientInfoExtraction
 from app.classes.meta.manipulate_meta import ManipulateMeta
 from app.classes.meta.search_in_meta import SearchInMeta
 
@@ -26,7 +27,15 @@ def start():
 
     # Image
     image = PreProcessImage.image_to_array(dicomFile)
+
+    start_time = time.time()
     processed_image = PreProcessImage.pre_process_image(image)
+    print("--- Looptijd image-preprocessing: %s seconden ---" %
+          round(time.time() - start_time, 3))
+
+    start_time = time.time()
     recognized = RecognizeText.recognize_text(
         processed_image, patientInfo, image)
+    print("--- Looptijd image-recognition: %s seconden ---" %
+          round(time.time() - start_time, 3))
     # ManipulatePixels.save_image(recognized, cleanMeta)

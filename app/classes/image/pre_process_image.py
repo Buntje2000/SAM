@@ -34,16 +34,20 @@ class PreProcessImage:
         return image
 
     def pre_process_image(image):
-        scale_percent = 250  # percent of original size
-        width = int(image.shape[1] * scale_percent / 100)
-        height = int(image.shape[0] * scale_percent / 100)
-        dim = (width, height)
+        # scale_percent = 250  # percent of original size
+        # width = int(image.shape[1] * scale_percent / 100)
+        # height = int(image.shape[0] * scale_percent / 100)
+        # dim = (width, height)
 
         # resize image
-        resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+        # resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
 
-        rgb = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)
+        threshold = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                          cv2.THRESH_BINARY, 11, 2)
 
-        processed_image = rgb
+        processed_image = threshold
+
+        # cv2.imshow("Image", processed_image)
+        # cv2.waitKey(0)
 
         return processed_image

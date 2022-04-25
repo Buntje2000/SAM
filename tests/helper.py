@@ -1,6 +1,8 @@
 from faker import Faker
+from pydicom import FileDataset
 from app.models.patient_model import PatientModel
 import random
+from app.services.generate_dicom import generate_file_with_specifics
 
 
 class Helper:
@@ -10,7 +12,7 @@ class Helper:
 
     _fake = Faker('nl_NL')
 
-    def create_patient(self) -> PatientModel:
+    def create_fake_patient(self) -> PatientModel:
         '''
             Returns a PatientModel with fake data
         '''
