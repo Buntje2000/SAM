@@ -1,3 +1,4 @@
+import time
 from turtle import width
 from pytesseract import Output
 import pytesseract
@@ -20,8 +21,14 @@ class RecognizeText:
     threshold = 0.8
 
     def recognize_text(processed_image, patientInfo: PatientModel, image):
-        reader = Reader(['en'], gpu=-1)
+        start_time = time.time()
+        reader = Reader(['en'], gpu=False)
+        print("--- Looptijd READER: %s seconden ---" %
+              round(time.time() - start_time, 3))
+        start_time = time.time()
         results = reader.readtext(processed_image)
+        print("--- Looptijd RECOGNITION: %s seconden ---" %
+              round(time.time() - start_time, 3))
 
         searchResults = defaultdict(list)
 
