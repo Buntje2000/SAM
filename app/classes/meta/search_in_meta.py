@@ -1,3 +1,4 @@
+import difflib
 from pydicom import FileDataset
 import pydicom.valuerep
 from app.models.patient_model import PatientModel
@@ -10,6 +11,12 @@ class SearchInMeta:
         itemsFound = 0
         patientName: pydicom.valuerep.PersonName = patientInfo.patient_name
 
+        def similarity(word, pattern):
+            return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
+
+        # Spell mistakes acceptance ratio
+        threshold = 0.8
+
         anonimyzedFields = []
         fieldsToSkip = ["AE", "AS", "AT", "DA", "DT", "FL", "FD", "IS", "OB",
                         "OD", "OF", "OW", "SL", "SQ", "SS", "TM", "UI", "UL", "US", "UN"]
@@ -20,7 +27,7 @@ class SearchInMeta:
             if elem.VR not in fieldsToSkip:
                 itemsSearched += 1
 
-                if patientName.family_name in str(elem.value):
+                if similarity(str(elem.value), patientName.family_name) > threshold:
                     itemsFound += 1
 
                     if str(elem.tag) == '(0010, 0010)':
