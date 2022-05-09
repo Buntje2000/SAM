@@ -8,7 +8,7 @@ from app.classes.meta.manipulate_meta import ManipulateMeta
 from app.classes.meta.search_in_meta import SearchInMeta
 
 
-def start(path):
+def start(path, search):
     # Get Dicom
     dicomFile = DicomReception.get_dicom(
         path
@@ -34,7 +34,7 @@ def start(path):
     start_time = time.time()
     processed_image = PreProcessImage.pre_process_image(image)
     recognized = RecognizeText.recognize_text(
-        processed_image, patientInfo, image)
+        processed_image, patientInfo, image, search)
     # ManipulatePixels.save_image(recognized, cleanMeta)
     print("--- Looptijd image-pipeline: %s seconden ---" %
           round(time.time() - start_time, 3))

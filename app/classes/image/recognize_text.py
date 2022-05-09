@@ -11,7 +11,7 @@ from app.models.patient_model import PatientModel
 
 class RecognizeText:
 
-    def recognize_text(processed_image, patientInfo: PatientModel, image):
+    def recognize_text(processed_image, patientInfo: PatientModel, image, search):
         # # EASYOCR
 
         # start_time = time.time()
@@ -65,7 +65,7 @@ class RecognizeText:
         for i in range(0, len(results["text"])):
             # extract the bounding box coordinates of the text region from
             # the current result
-            if similarity(results["text"][i], 'vel') > threshold:
+            if similarity(results["text"][i], search) > threshold:
                 t = results["text"][i]
                 x = results["left"][i]
                 y = results["top"][i]
@@ -99,8 +99,11 @@ class RecognizeText:
             if conf > 40:
                 # display the confidence and text to our terminal
                 # print(searchResults)
+                print("")
+                print("LOGGING AFBEELDINGSHERKENNING")
+                print("Gezochte tekst: {}".format(search))
+                print("Gevonden tekst: {}".format(text))
                 print("Confidence: {}".format(conf))
-                print("Text: {}".format(text))
                 print("Coördinates:", x, y, w, h, "(x, y, w, h)")
                 print("")
                 # strip out non-ASCII text so we can draw the text on the image
