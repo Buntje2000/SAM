@@ -15,4 +15,5 @@ args = vars(ap.parse_args())
 # Start pipeline
 start(args["image"], args["search"])
 
+# Logging
 print("--- Looptijd: %s seconden ---" % round(time.time() - start_time, 3))

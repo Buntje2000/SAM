@@ -19,6 +19,6 @@ metaFields = SearchInMeta.search_for_patient_info(
 def test_search_in_meta():
     for x in metaFields:
         if str(x[0]) == '(0010, 0010)':
-            assert x[1] == '**name**'
+            assert x[1] == '**NAME**'
         elif str(x[0]) == '(0010, 0020)':
-            assert x[1] == '**id**'
+            assert x[1] == '**ID**'
