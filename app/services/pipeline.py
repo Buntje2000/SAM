@@ -1,3 +1,4 @@
+import os
 import time
 from app.classes.services.dicom_reception import DicomReception
 from app.classes.services.patient_info_extraction import PatientInfoExtraction
@@ -17,9 +18,13 @@ def start(path):
     cleanMeta = ManipulateMeta.delete_patient_info_from_meta(
         metaFields, dicomFile)
 
+    isExist = os.path.exists("anonimyzed")
+    if not isExist:
+        os.makedirs("anonimyzed")
+
     # Opslaan DICOM bestand
     fileName = dicomFile.filename.replace(".dcm", "")
-    cleanMeta.save_as(fileName + "_anonimizedMeta" + ".dcm")
+    cleanMeta.save_as("anonimyzed/" + fileName + "_anonimizedMeta" + ".dcm")
 
     # Logging
     print("")
