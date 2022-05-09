@@ -21,6 +21,7 @@ def start(path):
     isExist = os.path.exists("anonimyzed")
     if not isExist:
         os.makedirs("anonimyzed")
+        print("--- Map '/anonymized' aangemaakt ---")
 
     # Opslaan DICOM bestand
     fileName = dicomFile.filename.replace(".dcm", "")
