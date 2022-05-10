@@ -1,4 +1,9 @@
-from turtle import width
+from msilib import sequence
+from re import X
+from turtle import right, width
+# from typing import Sequence
+from pydicom import FileDataset
+from pydicom import Sequence
 from pytesseract import Output
 import pytesseract
 import cv2
@@ -10,7 +15,6 @@ from app.models.patient_model import PatientModel
 
 
 class RecognizeText:
-
     def recognize_text(processed_image, patientInfo: PatientModel, image, search):
         # # EASYOCR
 
@@ -121,3 +125,17 @@ class RecognizeText:
         # cv2.waitKey(0)
 
         return searchResults
+
+    def add_coordinates_to_list(coordinates: defaultdict):
+        spots = []
+        for i in range(0, len(coordinates["text"])):
+            x = int(coordinates["left"][i])
+            y = int(coordinates["top"][i])
+            w = int(coordinates["width"][i])
+            h = int(coordinates["height"][i])
+
+            spots.append((0, [x, y, w, h]))
+
+        print("DICOMFILE", spots)
+
+        return spots
