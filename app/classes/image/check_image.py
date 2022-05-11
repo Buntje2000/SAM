@@ -18,7 +18,12 @@ class CheckImage:
             else:
                 print("Successfully created the directory %s " % outputDir)
 
-        client = DicomCleaner(output_folder=outputDir)
+        deidFiles = ['app/data/deid.dicom', 'app/data/deid.custom']
+        client = DicomCleaner(output_folder=outputDir,
+                              deid=deidFiles)
+        # client = DicomCleaner(output_folder=outputDir)
         detectionData = client.detect(dicom_file)
+
+        # print(detectionData)  
 
         return detectionData

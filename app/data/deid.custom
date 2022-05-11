@@ -1,0 +1,12 @@
+FORMAT dicom
+
+%filter customlist
+
+# Flags Only
+
+LABEL Philips Medical Systems Affiniti 70G  # (ANB)
+  contains Modality US
+  + contains Manufacturer Philips Medical Systems
+  + equals Rows 768
+  + contains ManufacturerModelName Affiniti 70G
+  coordinates 240,151,79,20

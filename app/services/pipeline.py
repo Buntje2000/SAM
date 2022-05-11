@@ -9,7 +9,6 @@ from app.classes.meta.search_in_meta import SearchInMeta
 from app.classes.image.check_image import CheckImage
 import os
 import shutil
-from pathlib import Path
 
 
 def start(path, search):
@@ -46,15 +45,18 @@ def start(path, search):
         tmpDir, dicomFile)
 
     hasKnownBurnedInPixels: bool = list(detectionData.items())[0][1]
-    if hasKnownBurnedInPixels:
-        #     ManipulatePixels.manipulate_known_pixels(tmpDir)
-        # else:
+    if not hasKnownBurnedInPixels or 'blacklist' in detectionData:
+        print("Unknown file")
         image = PreProcessImage.image_to_array(dicomFile)
         processed_image = PreProcessImage.pre_process_image(image)
         coordinates = RecognizeText.recognize_text(
             processed_image, patientInfo, image, search)
-        spots = RecognizeText.add_coordinates_to_list(coordinates)
-        ManipulatePixels.manipulate_unknown_pixels(tmpDir, spots)
+        RecognizeText.add_coordinates_to_file(
+            coordinates, dicomFile)
+        ManipulatePixels.manipulate_pixels(tmpDir)
+    else:
+        print("Knowm file")
+        ManipulatePixels.manipulate_pixels(tmpDir)
 
     # ManipulatePixels.save_image(recognized, cleanMeta)
     print("--- Looptijd image-pipeline: %s seconden ---" %
