@@ -10,11 +10,5 @@ class ManipulatePixels:
                               deid=deidFiles)
         client.detect(dicom_file)
         client.clean()
-        # client.save_dicom(handler_name="gdcm")
         client.save_dicom()
         # client.save_png()
-
-        # DEID ADD - deid/dicom/pixels/clean.py
-        # dicom.decompress(handler_name='gdcm')
-        # pixel_data_handlers.convert_color_space(
-        #     dicom.pixel_array, 'YBR_FULL', 'RGB')

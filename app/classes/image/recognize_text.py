@@ -167,10 +167,11 @@ class RecognizeText:
                 file_object.write(line)
 
             for i in range(0, len(coordinates["text"])):
-                x = str(coordinates["left"][i])
-                y = str(coordinates["top"][i])
-                w = str(coordinates["width"][i])
-                h = str(coordinates["height"][i])
+                x = int(coordinates["left"][i])
+                y = int(coordinates["top"][i])
+                w = int(coordinates["width"][i])
+                h = int(coordinates["height"][i])
 
-                spotLine: str = "\n  coordinates " + x + "," + y + "," + w + "," + h
+                spotLine: str = "\n  coordinates " + \
+                    str(x) + "," + str(y) + "," + str(x + w) + "," + str(y + h)
                 file_object.write(spotLine)
