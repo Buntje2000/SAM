@@ -1,5 +1,5 @@
 import os
-from deid.dicom import DicomCleaner, get_files
+from deid.dicom import get_files, has_burned_pixels
 
 
 class CheckImage:
@@ -18,12 +18,8 @@ class CheckImage:
             else:
                 print("Successfully created the directory %s " % outputDir)
 
-        deidFiles = ['app/data/deid.dicom', 'app/data/deid.custom']
-        client = DicomCleaner(output_folder=outputDir,
-                              deid=deidFiles)
-        # client = DicomCleaner(output_folder=outputDir)
-        detectionData = client.detect(dicom_file)
+        deidFiles = ['dicom', 'app/data/deid.custom']
+        results = has_burned_pixels(
+            dicom_files=dicom_file, deid=deidFiles)
 
-        # print(detectionData)  
-
-        return detectionData
+        return results
