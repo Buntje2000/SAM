@@ -2,6 +2,7 @@ import difflib
 from pydicom import FileDataset
 import pydicom.valuerep
 from app.models.patient_model import PatientModel
+from app.config import config
 
 
 class SearchInMeta:
@@ -15,7 +16,7 @@ class SearchInMeta:
             return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
 
         # Spell mistakes acceptance ratio
-        threshold = 0.8
+        threshold = float(config("META", "similarity_threshold"))
 
         anonimyzedFields = []
         fieldsToSkip = ["AE", "AS", "AT", "DA", "DT", "FL", "FD", "IS", "OB",

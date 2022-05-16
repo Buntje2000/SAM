@@ -5,6 +5,8 @@ import cv2
 
 class PreProcessImage:
     def image_to_array(dicom: FileDataset):
+        if dicom.file_meta.TransferSyntaxUID.is_compressed is True:
+            dicom.decompress()
 
         new_image = dicom.pixel_array
 
@@ -12,6 +14,9 @@ class PreProcessImage:
         scaled_image = np.uint8(scaled_image)
 
         image = np.array(scaled_image)
+
+        # cv2.imshow("Image", image)
+        # cv2.waitKey(0)
 
         return image
 
@@ -31,9 +36,11 @@ class PreProcessImage:
         threshold = cv2.adaptiveThreshold(img_resized, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                           cv2.THRESH_BINARY, 11, 2)
 
-        processed_image = threshold
+        binary_img = cv2.bitwise_not(threshold)
 
-        # cv2.imshow("Image", processed_image)
+        # cv2.imshow("Image", binary_img)
         # cv2.waitKey(0)
+
+        processed_image = threshold
 
         return processed_image
