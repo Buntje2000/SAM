@@ -7,8 +7,11 @@ class PatientInfoExtraction:
 
         dicom = dicomFile
 
-        if(dicom.PatientBirthDate != ''):
-            dob = dicom.dicom[0x0010, 0x0030].value
+        if "PatientBirthDate" in dicom:
+            if(dicom.PatientBirthDate != ''):
+                dob = dicom[0x0010, 0x0030].value
+            else:
+                dob = None
         else:
             dob = None
 

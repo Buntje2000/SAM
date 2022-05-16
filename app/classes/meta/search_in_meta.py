@@ -32,7 +32,7 @@ class SearchInMeta:
 
                     if str(elem.tag) == '(0010, 0010)':
                         newString = str(elem.value).replace(
-                            str(patientName), '**name**')
+                            str(patientName), '**NAME**')
 
                         anonimyzedFields.append(
                             [elem.tag,
@@ -40,7 +40,7 @@ class SearchInMeta:
                         )
                     else:
                         newString = str(elem.value).replace(
-                            patientName.family_name, '**name**')
+                            patientName.family_name, '**NAME**')
 
                         anonimyzedFields.append(
                             [elem.tag,
@@ -51,7 +51,7 @@ class SearchInMeta:
                     itemsFound += 1
 
                     newString = str(elem.value).replace(
-                        patientInfo.patient_id, '**id**')
+                        patientInfo.patient_id, '**ID**')
 
                     anonimyzedFields.append(
                         [elem.tag,
