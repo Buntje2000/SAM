@@ -3,7 +3,7 @@ from deid.dicom import get_files, has_burned_pixels
 
 
 class CheckImage:
-    def check_image_for_known_burnedinpixels(tmpDir, dicomFile):
+    def check_image_for_known_burnedinpixels(tmpDir):
         # dataset = get_dataset('tmp')
         # print("Dataset:", dataset)
         dicom_file = list(get_files(tmpDir))[0]
