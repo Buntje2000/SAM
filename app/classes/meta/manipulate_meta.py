@@ -1,4 +1,5 @@
 from pydicom import FileDataset
+import logging
 
 
 class ManipulateMeta():
@@ -17,6 +18,6 @@ class ManipulateMeta():
 
             dicom[tagD1, tagD2].value = x[1]
 
-        print("--- Aantal items geannonimiseerd:", itemsChanged, "---")
+        logging.info("--- Aantal items geannonimiseerd: " + str(itemsChanged) + " ---")
 
         return dicom
