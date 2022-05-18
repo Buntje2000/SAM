@@ -60,8 +60,10 @@ class SearchInMeta:
                          newString]
                     )
 
-        print("--- Aantal loops:", count, "---")
-        print("--- Aantal items doorzocht:", itemsSearched, "---")
-        print("--- Aantal items met persoonsgegevens gevonden:", itemsFound, "---")
+        logging.debug("Aantal loops: " + str(count))
+        logging.debug("Aantal items doorzocht: " +
+                      str(itemsSearched))
+        logging.debug(
+            "Aantal items met persoonsgegevens gevonden: " + str(itemsFound))
 
         return anonimyzedFields

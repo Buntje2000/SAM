@@ -9,12 +9,13 @@ from app.classes.services.patient_info_extraction import PatientInfoExtraction
 from app.classes.meta.manipulate_meta import ManipulateMeta
 from app.classes.meta.search_in_meta import SearchInMeta
 from app.classes.image.check_image import CheckImage
-import os
-import shutil
+import logging
 
 
 def meta_cleaner(path) -> FileDataset:
     start_time = time.time()
+
+    logging.info("Bestand: " + path)
 
     # Get Dicom
     dicomFile = DicomReception.get_dicom(path)
@@ -26,8 +27,8 @@ def meta_cleaner(path) -> FileDataset:
     cleanMeta = ManipulateMeta.delete_patient_info_from_meta(
         metaFields, dicomFile)
 
-    print("--- Looptijd meta-pipeline: %s seconden ---" %
-          round(time.time() - start_time, 3))
+    logging.debug("Looptijd meta-pipeline: %s seconden" %
+                  round(time.time() - start_time, 3))
 
     return cleanMeta
 
@@ -47,5 +48,5 @@ def pixel_cleaner(path, search, profile):
     # print(coordinates)
 
     # ManipulatePixels.save_image(recognized, cleanMeta)
-    print("--- Looptijd image-pipeline: %s seconden ---" %
-          round(time.time() - start_time, 3))
+    logging.debug("Looptijd image-pipeline: %s seconden" %
+                  round(time.time() - start_time, 3))

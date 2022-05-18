@@ -7,6 +7,7 @@ import cv2
 from collections import defaultdict
 import difflib
 from app.config import config
+import logging
 
 
 from app.models.patient_model import PatientModel
@@ -136,13 +137,12 @@ class RecognizeText:
             if conf > 40:
                 # display the confidence and text to our terminal
                 # print(searchResults)
-                print("")
-                print("LOGGING AFBEELDINGSHERKENNING")
-                print("Gezochtte tekst: {}".format(search))
-                print("Gevonden tekst: {}".format(text))
-                print("Confidence: {}".format(conf))
-                print("Coördinates:", x, y, w, h, "(x, y, w, h)")
-                print("")
+                logging.debug("LOGGING AFBEELDINGSHERKENNING")
+                logging.debug("Gezochtte tekst: {}".format(search))
+                logging.debug("Gevonden tekst: {}".format(text))
+                logging.debug("Confidence: {}".format(conf))
+                logging.debug("Coördinates: " + str(x) + str(y) +
+                             str(w) + str(h) + " (x, y, w, h)")
                 # strip out non-ASCII text so we can draw the text on the image
                 # using OpenCV, then draw a bounding box around the text along
                 # with the text itself
@@ -158,7 +158,9 @@ class RecognizeText:
         # cv2.waitKey(0)
 
         if len(searchResults["text"]) == 0:
-            print('Geen gevoellige data gevonden in afbeelding')
+            logging.info('Geen gevoellige data gevonden in afbeelding')
+        else:
+            logging.info('Gevoellige data gevonden in afbeelding')
 
         return searchResults
 

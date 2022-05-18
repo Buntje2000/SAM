@@ -11,5 +11,5 @@ class DicomReception:
 
         dicomFile = dcmread(path)
 
-        logging.info('file is succesfully received')
+        logging.debug('File is succesfully received')
         return dicomFile
