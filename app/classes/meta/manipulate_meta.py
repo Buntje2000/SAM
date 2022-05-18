@@ -4,6 +4,7 @@ import logging
 
 class ManipulateMeta():
     def delete_patient_info_from_meta(metaFields, dicomFile: FileDataset):
+        logger = logging.getLogger('file')
         dicom = dicomFile
 
         itemsChanged = 0
@@ -18,6 +19,6 @@ class ManipulateMeta():
 
             dicom[tagD1, tagD2].value = x[1]
 
-        logging.info("--- Aantal items geannonimiseerd: " + str(itemsChanged) + " ---")
+        logger.info("--- Aantal items geannonimiseerd: " + str(itemsChanged) + " ---")
 
         return dicom

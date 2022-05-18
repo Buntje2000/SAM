@@ -1,12 +1,13 @@
 import argparse
-import logging
+import logging.config
 import time
 
 from app.services.pipeline import start
 
-logging.basicConfig(filename='logging.log', level=logging.DEBUG,
-                    format='%(asctime)s:%(levelname)s:%(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
+logging.config.fileConfig('logging.conf')
+
+logger = logging.getLogger('file')
+
 
 start_time = time.time()
 
@@ -20,5 +21,5 @@ args = vars(ap.parse_args())
 # Start pipeline
 start(args["image"], args["search"])
 
-logging.info("--- Looptijd: %s seconden ---" %
+logger.info("--- Looptijd: %s seconden ---\n" %
              round(time.time() - start_time, 3))

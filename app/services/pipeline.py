@@ -42,7 +42,7 @@ def start(path, search):
     start_time = time.time()
 
     detectionData = CheckImage.check_image_for_known_burnedinpixels(
-        tmpDir, dicomFile)
+        tmpDir)
 
     hasKnownBurnedInPixels: bool = list(detectionData.items())[0][1]
     if not hasKnownBurnedInPixels or 'blacklist' in detectionData:
