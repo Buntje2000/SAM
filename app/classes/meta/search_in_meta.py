@@ -1,6 +1,7 @@
 import pydicom
 import pydicom.valuerep
 from app.models.patient_model import PatientModel
+import logging
 
 
 class SearchInMeta:

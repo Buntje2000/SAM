@@ -23,4 +23,5 @@ class PatientInfoExtraction:
         except:
             logging.error("PatientModel extraction could not be completed!")
 
+        logging.info("PatientModel extraction succesfully completed")
         return patientModel
