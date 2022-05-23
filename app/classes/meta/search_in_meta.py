@@ -16,8 +16,18 @@ class SearchInMeta:
         def similarity(word, pattern):
             return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
 
-        # Spell mistakes acceptance ratio
-        threshold = float(config("META", "similarity_threshold"))
+        try:
+            # Spelfouten acceptatie ratio
+            cft = float(config("META", "similarity_threshold"))
+        except Exception as e:
+            logging.warning(e)
+
+        if cft != None:
+            threshold = cft
+        else:
+            threshold = 0.8
+            logging.warning(
+                "Meta threshold is niet goed ingesteld. Standaardwaarde wordt gebruikt (0.8). Controleer config.ini")
 
         anonimyzedFields = []
         fieldsToSkip = ["AE", "AS", "AT", "DA", "DT", "FL", "FD", "IS", "OB",

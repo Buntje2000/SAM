@@ -1,12 +1,12 @@
 import argparse
 import logging
 import time
-from app.services.pipeline import meta_cleaner, pixel_cleaner
+from app.services.pipeline import meta_cleaner, pixel_search, pixel_cleaner
 from app.config import config
 
 logging.basicConfig(
-    filename=config("LOGGING", "filename"),
-    level=logging.INFO,
+    filename="logging.log",
+    level=logging.DEBUG,
     format='%(asctime)s:%(levelname)s:%(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
@@ -17,12 +17,12 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True,
                 help="path to input DICOM file to be anonimyzed")
 ap.add_argument("-s", "--search", required=False)
-ap.add_argument("-p", "--profile", required=True)
+ap.add_argument("-p", "--profile", required=False)
 args = vars(ap.parse_args())
 
 # Start pipeline
 meta_cleaner(args["image"])
-# pixel_cleaner(args["image"], args["search"], args["profile"])
+pixel_search(args["image"], args["search"], args["profile"])
 
 logging.info("Looptijd totaal: %s seconden\n" %
              round(time.time() - start_time, 3))

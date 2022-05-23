@@ -23,7 +23,7 @@ class PatientInfoExtraction:
                 patient_dob=dob
             )
         except:
-            logging.error("PatientModel kon niet worden gevuld!")
+            logging.fatal("PatientModel kon niet worden gevuld!")
 
-        logging.debug("PatientModel succesvol gevuld")
+        logging.debug("PatientModel gevuld")
         return patientModel
