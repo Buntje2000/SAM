@@ -23,12 +23,12 @@ class SearchInMeta:
         except Exception as e:
             logging.warning(e)
 
-        if cft != None:
-            threshold = cft
-        elif cft != None and cft < 4:
+        if cft != None and cft < 4:
             threshold = cft
             logging.warning(
                 "Meta threshold is erg laag ingesteld (<4). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
+        elif cft != None:
+            threshold = cft
         else:
             threshold = 0.8
             logging.warning(

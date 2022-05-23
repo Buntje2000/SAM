@@ -26,12 +26,12 @@ class RecognizeText:
         except Exception as e:
             logging.warning(e)
 
-        if cft != None:
-            threshold = cft
-        elif cft != None and cft < 3:
+        if cft != None and cft < 3:
             threshold = cft
             logging.warning(
-                "Pixel threshold is erg laag ingesteld (<3). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
+                "Pixel threshold is erg laag ingesteld (< 3). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
+        elif cft != None:
+            threshold = cft
         else:
             threshold = 0.6
             logging.warning(
@@ -44,12 +44,12 @@ class RecognizeText:
         except Exception as e:
             logging.warning(e)
 
-        if cnf != None:
-            conf = cnf
-        elif cnf != None and cnf < 30:
+        if cnf != None and cnf < 30:
             threshold = cft
             logging.warning(
                 "Minimale 'confidence' is erg laag ingesteld (<30). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
+        elif cnf != None:
+            conf = cnf
         else:
             conf = 60
             logging.warning(
