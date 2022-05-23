@@ -19,6 +19,7 @@ class RecognizeText:
         def similarity(word, pattern):
             return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
 
+        cft = None
         try:
             # Spelfouten acceptatie ratio
             cft = float(config("PIXEL", "similarity_threshold"))
@@ -27,11 +28,16 @@ class RecognizeText:
 
         if cft != None:
             threshold = cft
+        elif cft != None and cft < 3:
+            threshold = cft
+            logging.warning(
+                "Pixel threshold is erg laag ingesteld (<3). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
         else:
             threshold = 0.6
             logging.warning(
                 "Pixel threshold is niet goed ingesteld. Standaardwaarde wordt gebruikt (0.6). Controleer config.ini")
 
+        cnf = None
         try:
             # Minimale zekerheid van herkenning
             cnf = int(config("PIXEL", "min_confidence"))
@@ -40,6 +46,10 @@ class RecognizeText:
 
         if cnf != None:
             conf = cnf
+        elif cnf != None and cnf < 30:
+            threshold = cft
+            logging.warning(
+                "Minimale 'confidence' is erg laag ingesteld (<30). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
         else:
             conf = 60
             logging.warning(
@@ -74,7 +84,7 @@ class RecognizeText:
                 if filter != None:
                     for i in range(0, len(results["text"])):
                         if similarity(results["text"][i], filter) > threshold:
-                            if float(results["conf"][i]) > 60:
+                            if float(results["conf"][i]) > cnf:
                                 t = results["text"][i]
                                 x = results["left"][i]
                                 y = results["top"][i]
@@ -82,7 +92,7 @@ class RecognizeText:
                                     int(results["left"][i])
                                 h = int(results["height"][i]) + \
                                     int(results["top"][i])
-                                c = results["conf"][i]
+                                c = int(float(results["conf"][i]))
 
                                 searchResults["text"].append(t)
                                 searchResults["left"].append(x)
@@ -98,7 +108,7 @@ class RecognizeText:
         if search != None:
             for i in range(0, len(results["text"])):
                 if similarity(results["text"][i], search) > threshold:
-                    if float(results["conf"][i]) > 60:
+                    if float(results["conf"][i]) > cnf:
                         t = results["text"][i]
                         x = results["left"][i]
                         y = results["top"][i]
@@ -106,7 +116,7 @@ class RecognizeText:
                             int(results["left"][i])
                         h = int(results["height"][i]) + \
                             int(results["top"][i])
-                        c = results["conf"][i]
+                        c = int(float(results["conf"][i]))
 
                         searchResults["text"].append(t)
                         searchResults["left"].append(x)
@@ -116,7 +126,7 @@ class RecognizeText:
                         searchResults["conf"].append(c)
                         # extract the OCR text itself along with the confidence of the
                         # text localization
-
+        items = 0
         # loop over each of the individual text localizations
         for i in range(0, len(searchResults["text"])):
             # extract the bounding box coordinates of the text region from
@@ -132,9 +142,10 @@ class RecognizeText:
 
         # filter out weak confidence text localizations
             if conf > 40:
+                items += 1
                 # display the confidence and text to our terminal
                 # print(searchResults)
-                logging.debug("LOGGING AFBEELDINGSHERKENNING")
+                logging.debug(f"HERKEND ITEM {items}")
                 if search != None:
                     logging.debug("Gezochte tekst: {}".format(search))
                 logging.debug("Gevonden tekst: {}".format(text))

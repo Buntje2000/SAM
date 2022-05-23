@@ -16,6 +16,7 @@ class SearchInMeta:
         def similarity(word, pattern):
             return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
 
+        cft = None
         try:
             # Spelfouten acceptatie ratio
             cft = float(config("META", "similarity_threshold"))
@@ -24,6 +25,10 @@ class SearchInMeta:
 
         if cft != None:
             threshold = cft
+        elif cft != None and cft < 4:
+            threshold = cft
+            logging.warning(
+                "Meta threshold is erg laag ingesteld (<4). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
         else:
             threshold = 0.8
             logging.warning(
