@@ -44,7 +44,7 @@ def pixel_search(file, search, profile) -> dict:
     image = PreProcessImage.image_to_array(dicomFile)
     processed_image = PreProcessImage.pre_process_image(image)
     result = RecognizeText.recognize_text(
-        processed_image, patientInfo, image, search, profile, dicomFile)
+        processed_image, patientInfo, image, profile, dicomFile, search)
 
     logging.debug("Looptijd image-pipeline: %s seconden" %
                   round(time.time() - start_time, 3))
@@ -67,7 +67,7 @@ def pixel_cleaner(path, search, profile):
     image = PreProcessImage.image_to_array(dicomFile)
     processed_image = PreProcessImage.pre_process_image(image)
     coordinates = RecognizeText.recognize_text(
-        processed_image, patientInfo, image, search, profile, dicomFile)
+        processed_image, patientInfo, image, profile, dicomFile, search)
 
     # Pixels schoonmaken
     RecognizeText.add_coordinates_to_file(

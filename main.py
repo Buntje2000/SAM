@@ -1,8 +1,7 @@
 import argparse
 import logging
 import time
-from app.services.pipeline import meta_cleaner, pixel_search, pixel_cleaner
-from app.config import config
+from app.services.pipelines import meta_cleaner, pixel_search, pixel_cleaner
 
 logging.basicConfig(
     filename="logging.log",
@@ -20,9 +19,10 @@ ap.add_argument("-s", "--search", required=False)
 ap.add_argument("-p", "--profile", required=False)
 args = vars(ap.parse_args())
 
-# Start pipeline
+# Start pipelines
 meta_cleaner(args["image"])
-pixel_search(args["image"], args["search"], args["profile"])
+# pixel_search(args["image"], args["search"], args["profile"])
+# pixel_cleaner(args["image"], args["search"], args["profile"])
 
 logging.info("Looptijd totaal: %s seconden\n" %
              round(time.time() - start_time, 3))

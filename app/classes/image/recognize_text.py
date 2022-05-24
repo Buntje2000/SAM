@@ -1,4 +1,3 @@
-import configparser
 from pydicom import FileDataset
 import pydicom.valuerep
 from pytesseract import Output
@@ -14,7 +13,7 @@ from app.models.patient_model import PatientModel
 
 
 class RecognizeText:
-    def recognize_text(processed_image, patientInfo: PatientModel, image, search, profile, dicomFile: FileDataset):
+    def recognize_text(processed_image, patientInfo: PatientModel, image, profile, dicomFile: FileDataset, search=None):
 
         def similarity(word, pattern):
             return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
@@ -26,10 +25,10 @@ class RecognizeText:
         except Exception as e:
             logging.warning(e)
 
-        if cft != None and cft < 3:
+        if cft != None and cft < 0.3:
             threshold = cft
             logging.warning(
-                "Pixel threshold is erg laag ingesteld (< 3). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
+                "Pixel threshold is erg laag ingesteld (< 0.3). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
         elif cft != None:
             threshold = cft
         else:
@@ -47,7 +46,7 @@ class RecognizeText:
         if cnf != None and cnf < 30:
             threshold = cft
             logging.warning(
-                "Minimale 'confidence' is erg laag ingesteld (<30). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
+                "Minimale 'confidence' is erg laag ingesteld (< 30). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
         elif cnf != None:
             conf = cnf
         else:
@@ -63,6 +62,7 @@ class RecognizeText:
 
         patientName: pydicom.valuerep.PersonName = patientInfo.patient_name
 
+        # Profielen -> welke data moet er worden gezocht in de afbeelding.
         low = [patientName.family_name,
                patientInfo.patient_id, patientInfo.patient_dob]
         medium = [patientName.family_name,
