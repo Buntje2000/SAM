@@ -18,6 +18,7 @@ class ManipulateMeta():
 
             dicom[tagD1, tagD2].value = x[1]
 
-        logging.info("--- Aantal items geannonimiseerd: " + str(itemsChanged) + " ---")
+        logging.info("Aantal meta-tags geannonimiseerd: " +
+                     str(itemsChanged))
 
         return dicom

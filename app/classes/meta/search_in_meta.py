@@ -2,6 +2,7 @@ import difflib
 from pydicom import FileDataset
 import pydicom.valuerep
 from app.models.patient_model import PatientModel
+from app.config import config
 import logging
 
 
@@ -15,8 +16,23 @@ class SearchInMeta:
         def similarity(word, pattern):
             return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
 
-        # Spell mistakes acceptance ratio
-        threshold = 0.8
+        cft = None
+        try:
+            # Spelfouten acceptatie ratio
+            cft = float(config("META", "similarity_threshold"))
+        except Exception as e:
+            logging.warning(e)
+
+        if cft != None and cft < 0.4:
+            threshold = cft
+            logging.warning(
+                "Meta threshold is erg laag ingesteld (< 4). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
+        elif cft != None:
+            threshold = cft
+        else:
+            threshold = 0.8
+            logging.warning(
+                "Meta threshold is niet goed ingesteld. Standaardwaarde wordt gebruikt (0.8). Controleer config.ini")
 
         anonimyzedFields = []
         fieldsToSkip = ["AE", "AS", "AT", "DA", "DT", "FL", "FD", "IS", "OB",
@@ -59,8 +75,10 @@ class SearchInMeta:
                          newString]
                     )
 
-        print("--- Aantal loops:", count, "---")
-        print("--- Aantal items doorzocht:", itemsSearched, "---")
-        print("--- Aantal items met persoonsgegevens gevonden:", itemsFound, "---")
+        logging.debug("Aantal loops: " + str(count))
+        logging.debug("Aantal items doorzocht: " +
+                      str(itemsSearched))
+        logging.debug(
+            "Aantal items met persoonsgegevens gevonden: " + str(itemsFound))
 
         return anonimyzedFields
