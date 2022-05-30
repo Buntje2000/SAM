@@ -5,8 +5,8 @@ from pydicom import FileDataset, dcmread
 class DicomReception:
     def get_dicom(file) -> FileDataset:
         '''
-        This function receives a dicom file from a certain path and returns a FileDataset.
-        If the given variable is already a FileDataset, it just sends that through.
+        Deze functie ontvangt een dicom-bestand van een bepaald pad en retourneert een FileDataset.
+        Als de opgegeven variabele al een FileDataset is, stuurt hij die door.
         '''
         try:
             if isinstance(file, FileDataset):

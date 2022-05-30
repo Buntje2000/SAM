@@ -145,7 +145,7 @@ class RecognizeText:
                 items += 1
                 # display the confidence and text to our terminal
                 # print(searchResults)
-                logging.debug(f"HERKEND ITEM {items}")
+                logging.debug(f"HERKEND ITEM {items}:")
                 if search != None:
                     logging.debug("Gezochte tekst: {}".format(search))
                 logging.debug("Gevonden tekst: {}".format(text))
@@ -182,7 +182,7 @@ class RecognizeText:
 
         lines_to_append = [first_part, label, modality,
                            manufacturer, rows, modelName]
-        # LABEL Philips Affiniti  # (ANB)
+        # LABEL Philips Affiniti 70G # (ANB)
         # contains Modality US
         # + contains Manufacturer Philips
         # + equals Rows 768

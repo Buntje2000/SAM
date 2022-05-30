@@ -12,6 +12,8 @@ class SearchInMeta:
         itemsSearched = 0
         itemsFound = 0
         patientName: pydicom.valuerep.PersonName = patientInfo.patient_name
+        nameReplacement = str(config("META", "name_replacement"))
+        idReplacement = str(config("META", "id_replacement"))
 
         def similarity(word, pattern):
             return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
@@ -26,7 +28,7 @@ class SearchInMeta:
         if cft != None and cft < 0.4:
             threshold = cft
             logging.warning(
-                "Meta threshold is erg laag ingesteld (< 4). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
+                "Meta threshold is erg laag ingesteld (< 0.4). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
         elif cft != None:
             threshold = cft
         else:
@@ -44,12 +46,13 @@ class SearchInMeta:
             if elem.VR not in fieldsToSkip:
                 itemsSearched += 1
 
+                # Als de gevonden waarde (deels) overeenkomt met de achternaam van de patient, dan moet deze worden vervangen.
                 if similarity(str(elem.value), patientName.family_name) > threshold:
                     itemsFound += 1
 
                     if str(elem.tag) == '(0010, 0010)':
                         newString = str(elem.value).replace(
-                            str(patientName), '**NAME**')
+                            str(patientName), nameReplacement)
 
                         anonimyzedFields.append(
                             [elem.tag,
@@ -57,18 +60,19 @@ class SearchInMeta:
                         )
                     else:
                         newString = str(elem.value).replace(
-                            patientName.family_name, '**NAME**')
+                            patientName.family_name, nameReplacement)
 
                         anonimyzedFields.append(
                             [elem.tag,
                              newString]
                         )
 
-                if patientInfo.patient_id in str(elem.value):
+                # Als de gevonden waarde (deels) overeenkomt met het ID van de patient, dan moet deze worden vervangen.
+                if similarity(str(elem.value), patientInfo.patient_id) > threshold:
                     itemsFound += 1
 
                     newString = str(elem.value).replace(
-                        patientInfo.patient_id, '**ID**')
+                        patientInfo.patient_id, idReplacement)
 
                     anonimyzedFields.append(
                         [elem.tag,
