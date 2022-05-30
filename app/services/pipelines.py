@@ -10,8 +10,11 @@ from app.classes.meta.search_in_meta import SearchInMeta
 import logging
 
 
-def meta_cleaner(file) -> FileDataset:
-    '''Verwijder persoonsnaam, id & geboortedatum uit alle metavelden'''
+def meta_cleaner(file, replacement) -> FileDataset:
+    '''
+    Verwijder/vervang persoonsnaam, id & geboortedatum uit alle metavelden. 
+    Als er een replacement waarde is aangegeven worden de persoonsgegevens vervangen door de opgegeven waarde.
+    '''
 
     start_time = time.time()
 
@@ -21,7 +24,7 @@ def meta_cleaner(file) -> FileDataset:
 
     # Meta
     metaFields = SearchInMeta.search_for_patient_info(
-        dicomFile, patientInfo)
+        dicomFile, patientInfo, replacement)
     cleanMeta = ManipulateMeta.delete_patient_info_from_meta(
         metaFields, dicomFile)
 

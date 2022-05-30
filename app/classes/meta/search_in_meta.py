@@ -7,13 +7,20 @@ import logging
 
 
 class SearchInMeta:
-    def search_for_patient_info(dicom: FileDataset, patientInfo: PatientModel):
+    def search_for_patient_info(dicom: FileDataset, patientInfo: PatientModel, replacement):
+        '''Zoekt in de metagegevens naar achternaam en id van patient.'''
+
         count = 0
         itemsSearched = 0
         itemsFound = 0
         patientName: pydicom.valuerep.PersonName = patientInfo.patient_name
-        nameReplacement = str(config("META", "name_replacement"))
-        idReplacement = str(config("META", "id_replacement"))
+
+        if replacement == None:
+            nameReplacement = str(config("META", "name_replacement"))
+            idReplacement = str(config("META", "id_replacement"))
+        else:
+            nameReplacement = replacement
+            idReplacement = replacement
 
         def similarity(word, pattern):
             return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
