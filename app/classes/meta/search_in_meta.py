@@ -7,7 +7,7 @@ import logging
 
 
 class SearchInMeta:
-    def search_for_patient_info(dicom: FileDataset, patientInfo: PatientModel, replacement):
+    def search_for_patient_info(dicom: FileDataset, patientInfo: PatientModel, replacement=None):
         '''Zoekt in de metagegevens naar achternaam en id van patient.'''
 
         count = 0
