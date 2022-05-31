@@ -20,7 +20,3 @@ class Helper:
             patient_name=self._fake.first_name(),
             patient_id=str(random.randint(10, 999999))
         )
-
-    def create_fake_replacement(self) -> str:
-        '''Retourneert een random 'replacement'nummer'''
-        return str(random.randint(100, 999999))

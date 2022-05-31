@@ -1,4 +1,4 @@
-import pytest
+import random
 from app.classes.services.dicom_reception import DicomReception
 from app.classes.services.patient_info_extraction import PatientInfoExtraction
 from app.classes.meta.search_in_meta import SearchInMeta
@@ -7,7 +7,7 @@ from tests.helper import Helper
 
 _helper = Helper()
 _patient = _helper.create_fake_patient()
-_replacement = _helper.create_fake_replacement()
+_replacement = str(random.randint(100, 999999))
 
 generate_file_with_specifics("unitTestDicom.dcm", _patient)
 
