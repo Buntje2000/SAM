@@ -7,14 +7,14 @@ from app.services.generate_dicom import generate_file_with_specifics
 
 class Helper:
     '''
-        This class provides all required entities that are needed for testing.
+        Deze class biedt alle vereiste entiteiten die nodig zijn voor het testen.
     '''
 
     _fake = Faker('nl_NL')
 
     def create_fake_patient(self) -> PatientModel:
         '''
-            Returns a PatientModel with fake data
+            Retourneert een patiëntmodel met fake data        
         '''
         return PatientModel(
             patient_name=self._fake.first_name(),
