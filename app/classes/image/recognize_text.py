@@ -1,14 +1,12 @@
-from pydicom import FileDataset
-import pydicom.valuerep
-from pytesseract import Output
-import pytesseract
-import cv2
-from collections import defaultdict
-import difflib
-from app.config import config
 import logging
-
-
+import difflib
+import cv2
+import pytesseract
+import pydicom.valuerep
+from pydicom import FileDataset
+from pytesseract import Output
+from collections import defaultdict
+from app.config import config
 from app.models.patient_model import PatientModel
 
 

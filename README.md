@@ -35,7 +35,7 @@ Pip is de package manager van Python. Deze zal nu de benodigde packages installe
 Activeer vervolgends de pipeline door dit commando aan te roepen:
 
 ```bash
-python main.py
+python main.py -i [filename.dcm] -s [search keyword] -p [low/medium/high] -r [replacement value]
 ```
 
 De pipeline draait nu.
