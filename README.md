@@ -32,6 +32,8 @@ pip install -r requirements.txt
 
 Pip is de package manager van Python. Deze zal nu de benodigde packages installeren.
 
+Om de Pixel-search & Pixel-clean pipelines te draaien moet Tesseract OCR geïnstalleerd zijn op het systeem.
+
 ## Run
 
 Activeer vervolgends de pipeline door dit commando aan te roepen:
