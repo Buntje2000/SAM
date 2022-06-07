@@ -32,6 +32,8 @@ pip install -r requirements.txt
 
 Pip is de package manager van Python. Deze zal nu de benodigde packages installeren.
 
+## Run
+
 Activeer vervolgends de pipeline door dit commando aan te roepen:
 
 ```bash

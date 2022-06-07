@@ -1,9 +1,9 @@
 import difflib
-from pydicom import FileDataset
+import logging
 import pydicom.valuerep
+from pydicom import FileDataset
 from app.models.patient_model import PatientModel
 from app.config import config
-import logging
 
 
 class SearchInMeta:
