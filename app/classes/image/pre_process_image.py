@@ -1,6 +1,9 @@
 from pydicom import FileDataset
 import numpy as np
 import cv2
+import logging
+
+logger = logging.getLogger('file')
 
 
 class PreProcessImage:

@@ -3,6 +3,9 @@ from app.models.patient_model import PatientModel
 import logging
 
 
+logger = logging.getLogger('file')
+
+
 class PatientInfoExtraction:
     def get_patient_info(dicomFile: FileDataset) -> PatientModel:
 
@@ -23,7 +26,7 @@ class PatientInfoExtraction:
                 patient_dob=dob
             )
         except:
-            logging.fatal("PatientModel kon niet worden gevuld!")
+            logger.fatal("PatientModel kon niet worden gevuld!")
 
-        logging.debug("PatientModel gevuld")
+        logger.debug("PatientModel gevuld")
         return patientModel
