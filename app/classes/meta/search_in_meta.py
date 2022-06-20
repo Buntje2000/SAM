@@ -54,37 +54,73 @@ class SearchInMeta:
                 itemsSearched += 1
 
                 # Als de gevonden waarde (deels) overeenkomt met de achternaam van de patient, dan moet deze worden vervangen.
-                if similarity(str(elem.value), patientName.family_name) > threshold:
-                    itemsFound += 1
+                try:
+                    # if similarity(str(elem.value), patientName.family_name) > threshold or patientName.family_name in str(elem.value):
+                    if patientName.family_name != "" or patientName.family_name != None and patientName.family_name in str(elem.value):
+                        itemsFound += 1
+                        print(elem.description, elem.tag, elem.value)
 
-                    if str(elem.tag) == '(0010, 0010)':
-                        newString = str(elem.value).replace(
-                            str(patientName), nameReplacement)
+                        if str(elem.tag) == '(0010, 0010)':
+                            newString = str(elem.value).replace(
+                                str(patientName), nameReplacement)
 
-                        anonimyzedFields.append(
-                            [elem.tag,
-                             newString]
-                        )
-                    else:
-                        newString = str(elem.value).replace(
-                            patientName.family_name, nameReplacement)
+                            anonimyzedFields.append(
+                                [elem.tag,
+                                 newString]
+                            )
+                        else:
+                            newString = str(elem.value).replace(
+                                patientName.family_name, nameReplacement)
 
-                        anonimyzedFields.append(
-                            [elem.tag,
-                             newString]
-                        )
+                            anonimyzedFields.append(
+                                [elem.tag,
+                                 newString]
+                            )
+                except Exception as e:
+                    logging.warning(e)
+
+                # Als de gevonden waarde (deels) overeenkomt met de voornaam van de patient, dan moet deze worden vervangen.
+                try:
+                    # if similarity(str(elem.value), patientName.given_name) > threshold or patientName.given_name in str(elem.value):
+                    if patientName.given_name != "" or patientName.given_name != None and patientName.given_name in str(elem.value):
+                        itemsFound += 1
+                        print(elem.description, elem.tag, elem.value)
+
+                        if str(elem.tag) == '(0010, 0010)':
+                            newString = str(elem.value).replace(
+                                str(patientName), nameReplacement)
+
+                            anonimyzedFields.append(
+                                [elem.tag,
+                                 newString]
+                            )
+                        else:
+                            newString = str(elem.value).replace(
+                                patientName.given_name, nameReplacement)
+
+                            anonimyzedFields.append(
+                                [elem.tag,
+                                 newString]
+                            )
+                except Exception as e:
+                    logging.warning(e)
 
                 # Als de gevonden waarde (deels) overeenkomt met het ID van de patient, dan moet deze worden vervangen.
-                if similarity(str(elem.value), patientInfo.patient_id) > threshold:
-                    itemsFound += 1
+                try:
+                    # if similarity(str(elem.value), patientInfo.patient_id) > threshold or patientInfo.patient_id in str(elem.value):
+                    if patientInfo.patient_id != "" or patientInfo.patient_id != None and patientInfo.patient_id in str(elem.value):
+                        itemsFound += 1
+                        print(elem.description, elem.tag, elem.value)
 
-                    newString = str(elem.value).replace(
-                        patientInfo.patient_id, idReplacement)
+                        newString = str(elem.value).replace(
+                            patientInfo.patient_id, idReplacement)
 
-                    anonimyzedFields.append(
-                        [elem.tag,
-                         newString]
-                    )
+                        anonimyzedFields.append(
+                            [elem.tag,
+                             newString]
+                        )
+                except Exception as e:
+                    logging.warning(e)
 
         logging.debug("Aantal loops: " + str(count))
         logging.debug("Aantal items doorzocht: " +

@@ -1,3 +1,4 @@
+from distutils.command.clean import clean
 import time
 from pydicom import FileDataset
 from app.classes.services.dicom_reception import DicomReception
@@ -25,8 +26,12 @@ def meta_cleaner(file, replacement) -> FileDataset:
     # Meta
     metaFields = SearchInMeta.search_for_patient_info(
         dicomFile, patientInfo, replacement)
+    print(metaFields)
     cleanMeta = ManipulateMeta.delete_patient_info_from_meta(
         metaFields, dicomFile)
+    # print(cleanMeta)
+
+    cleanMeta.save_as("cleanMetaTest.dcm")
 
     logging.debug("Looptijd meta-pipeline: %s seconden" %
                   round(time.time() - start_time, 3))

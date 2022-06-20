@@ -22,8 +22,8 @@ args = vars(ap.parse_args())
 
 # Start pipelines
 meta_cleaner(args["image"], args["replacement"])
-pixel_search(args["image"], args["search"], args["profile"])
-pixel_cleaner(args["image"], args["search"], args["profile"])
+# pixel_search(args["image"], args["search"], args["profile"])
+# pixel_cleaner(args["image"], args["search"], args["profile"])
 
 logging.info("Looptijd totaal: %s seconden\n" %
              round(time.time() - start_time, 3))

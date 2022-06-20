@@ -64,7 +64,7 @@ class RecognizeText:
         low = [patientName.family_name,
                patientInfo.patient_id, patientInfo.patient_dob]
         medium = [patientName.family_name,
-                  patientInfo.patient_id, patientInfo.patient_dob]
+                  patientInfo.patient_id, patientInfo.patient_dob, dicomFile.StudyDate]
         high = [patientName.family_name,
                 patientInfo.patient_id, patientInfo.patient_dob,
                 dicomFile.SeriesDate, dicomFile.StudyDate,
