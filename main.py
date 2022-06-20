@@ -1,14 +1,11 @@
 import argparse
-import logging
+import logging.config
 import time
 from app.services.pipelines import meta_cleaner, pixel_search, pixel_cleaner
 
-logging.basicConfig(
-    filename="logging.log",
-    level=logging.DEBUG,
-    format='%(asctime)s:%(levelname)s:%(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
+logging.config.fileConfig('logging.conf')
+logger = logging.getLogger('file')
+
 
 start_time = time.time()
 
@@ -25,5 +22,5 @@ meta_cleaner(args["image"], args["replacement"])
 # pixel_search(args["image"], args["search"], args["profile"])
 # pixel_cleaner(args["image"], args["search"], args["profile"])
 
-logging.info("Looptijd totaal: %s seconden\n" %
-             round(time.time() - start_time, 3))
+logger.info("Looptijd totaal: %s seconden\n" %
+            round(time.time() - start_time, 3))
