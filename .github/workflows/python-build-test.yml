@@ -13,14 +13,29 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
+        id: buildtest
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
+#       - name: Cache
+#         uses: actions/cache@v3.0.4
+#         id: cache
+#         with:
+#           path: ~/.cache/pip
+#           key: ${{ runner.os }}-pip-v2-${{ hashFiles('**/requirements.txt') }}
+#           restore-keys: |
+#             ${{ runner.os }}-pip-
       - name: Install dependencies
+#         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Install Flake8
+        run: |
+          pip install flake8
+      - name: Install Tesseract
+        run: |
+          sudo apt install tesseract-ocr
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
@@ -29,4 +44,4 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test with pytest
         run: |
-          pytest --cov
+          pytest --cov -v

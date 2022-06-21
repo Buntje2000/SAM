@@ -1,58 +1,22 @@
-from pydicom import FileDataset
-import pydicom.valuerep
-from pytesseract import Output
-import pytesseract
-import cv2
-from collections import defaultdict
-import difflib
-from app.config import config
 import logging
-
-
+import cv2
+import pytesseract
+import pydicom.valuerep
+from pydicom import FileDataset
+from pytesseract import Output
+from collections import defaultdict
 from app.models.patient_model import PatientModel
+from app.classes.image.helper import getPixelThreshold, getMinConfidence
+from app.classes.services.helper import similarity
+
+logger = logging.getLogger('file')
 
 
 class RecognizeText:
     def recognize_text(processed_image, patientInfo: PatientModel, image, profile, dicomFile: FileDataset, search=None):
 
-        def similarity(word, pattern):
-            return difflib.SequenceMatcher(a=word.lower(), b=pattern.lower()).ratio()
-
-        cft = None
-        try:
-            # Spelfouten acceptatie ratio
-            cft = float(config("PIXEL", "similarity_threshold"))
-        except Exception as e:
-            logging.warning(e)
-
-        if cft != None and cft < 0.3:
-            threshold = cft
-            logging.warning(
-                "Pixel threshold is erg laag ingesteld (< 0.3). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
-        elif cft != None:
-            threshold = cft
-        else:
-            threshold = 0.6
-            logging.warning(
-                "Pixel threshold is niet goed ingesteld. Standaardwaarde wordt gebruikt (0.6). Controleer config.ini")
-
-        cnf = None
-        try:
-            # Minimale zekerheid van herkenning
-            cnf = int(config("PIXEL", "min_confidence"))
-        except Exception as e:
-            logging.warning(e)
-
-        if cnf != None and cnf < 30:
-            threshold = cft
-            logging.warning(
-                "Minimale 'confidence' is erg laag ingesteld (< 30). Dit verhoogt de kans op foutieve waarden. Controleer config.ini")
-        elif cnf != None:
-            conf = cnf
-        else:
-            conf = 60
-            logging.warning(
-                "Minimale 'confidence' is niet goed ingesteld. Standaardwaarde wordt gebruikt (60). Controleer config.ini")
+        threshold = getPixelThreshold()
+        confidence = getMinConfidence()
 
         # TESSERACT
         results = pytesseract.image_to_data(
@@ -66,7 +30,7 @@ class RecognizeText:
         low = [patientName.family_name,
                patientInfo.patient_id, patientInfo.patient_dob]
         medium = [patientName.family_name,
-                  patientInfo.patient_id, patientInfo.patient_dob]
+                  patientInfo.patient_id, patientInfo.patient_dob, dicomFile.StudyDate]
         high = [patientName.family_name,
                 patientInfo.patient_id, patientInfo.patient_dob,
                 dicomFile.SeriesDate, dicomFile.StudyDate,
@@ -79,12 +43,15 @@ class RecognizeText:
 
         # extract the bounding box coordinates of the text region from
         # the current result
+        if profile == None:
+            profile = "high"
+
         try:
             for filter in locals()[profile]:
                 if filter != None:
                     for i in range(0, len(results["text"])):
                         if similarity(results["text"][i], filter) > threshold:
-                            if float(results["conf"][i]) > cnf:
+                            if float(results["conf"][i]) > confidence:
                                 t = results["text"][i]
                                 x = results["left"][i]
                                 y = results["top"][i]
@@ -102,13 +69,13 @@ class RecognizeText:
                                 searchResults["conf"].append(c)
                                 # extract the OCR text itself along with the confidence of the
                                 # text localization
-        except:
-            logging.error("Profiel niet gevonden")
+        except Exception as e:
+            logger.warning(e)
 
         if search != None:
             for i in range(0, len(results["text"])):
                 if similarity(results["text"][i], search) > threshold:
-                    if float(results["conf"][i]) > cnf:
+                    if float(results["conf"][i]) > confidence:
                         t = results["text"][i]
                         x = results["left"][i]
                         y = results["top"][i]
@@ -145,12 +112,12 @@ class RecognizeText:
                 items += 1
                 # display the confidence and text to our terminal
                 # print(searchResults)
-                logging.debug(f"HERKEND ITEM {items}:")
+                logger.debug(f"HERKEND ITEM {items}:")
                 if search != None:
-                    logging.debug("Gezochte tekst: {}".format(search))
-                logging.debug("Gevonden tekst: {}".format(text))
-                logging.debug("Confidence: {}".format(conf))
-                logging.debug(f"Coordinates: {x},{y},{w},{h} (x, y, w, h)")
+                    logger.debug("Gezochte tekst: {}".format(search))
+                logger.debug("Gevonden tekst: {}".format(text))
+                logger.debug("Confidence: {}".format(conf))
+                logger.debug(f"Coordinates: {x},{y},{w},{h} (x, y, w, h)")
                 # strip out non-ASCII text so we can draw the text on the image
                 # using OpenCV, then draw a bounding box around the text along
                 # with the text itself
@@ -162,10 +129,10 @@ class RecognizeText:
                             1.5, (0, 255, 255), 2)
 
         if len(searchResults["text"]) == 0:
-            logging.info('Geen gevoellige data gevonden in afbeelding')
+            logger.info('Geen gevoellige data gevonden in afbeelding')
         else:
             length = len(searchResults["text"])
-            logging.info(
+            logger.info(
                 f'Aantal gevoellige items gevonden in afbeelding: {length}')
 
         return searchResults

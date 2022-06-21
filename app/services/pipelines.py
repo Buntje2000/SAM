@@ -7,7 +7,10 @@ from app.classes.image.recognize_text import RecognizeText
 from app.classes.services.patient_info_extraction import PatientInfoExtraction
 from app.classes.meta.manipulate_meta import ManipulateMeta
 from app.classes.meta.search_in_meta import SearchInMeta
-import logging
+import logging.config
+
+logging.config.fileConfig('logging.conf')
+logger = logging.getLogger('file')
 
 
 def meta_cleaner(file, replacement) -> FileDataset:
@@ -24,12 +27,12 @@ def meta_cleaner(file, replacement) -> FileDataset:
 
     # Meta
     metaFields = SearchInMeta.search_for_patient_info(
-        dicomFile, patientInfo, replacement)
+        dicomFile, patientInfo)
     cleanMeta = ManipulateMeta.delete_patient_info_from_meta(
-        metaFields, dicomFile)
+        metaFields, dicomFile, replacement)
 
-    logging.debug("Looptijd meta-pipeline: %s seconden" %
-                  round(time.time() - start_time, 3))
+    logger.info("Looptijd meta-pipeline: %s seconden\n" %
+                round(time.time() - start_time, 3))
 
     return cleanMeta
 
@@ -49,8 +52,8 @@ def pixel_search(file, search, profile) -> dict:
     result = RecognizeText.recognize_text(
         processed_image, patientInfo, image, profile, dicomFile, search)
 
-    logging.debug("Looptijd image-pipeline: %s seconden" %
-                  round(time.time() - start_time, 3))
+    logger.info("Looptijd image-pipeline: %s seconden\n" %
+                round(time.time() - start_time, 3))
 
     return dict(result)
 
@@ -73,9 +76,10 @@ def pixel_cleaner(path, search, profile):
         processed_image, patientInfo, image, profile, dicomFile, search)
 
     # Pixels schoonmaken
-    RecognizeText.add_coordinates_to_file(
+    foundText = RecognizeText.add_coordinates_to_file(
         coordinates=coordinates, dicomFile=dicomFile)
-    ManipulatePixels.manipulate_pixels(path)
+    if foundText != None:
+        ManipulatePixels.manipulate_pixels(path)
 
-    logging.debug("Looptijd imagecleaner-pipeline: %s seconden" %
-                  round(time.time() - start_time, 3))
+    logger.info("Looptijd imagecleaner-pipeline: %s seconden\n" %
+                round(time.time() - start_time, 3))

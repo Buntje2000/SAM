@@ -9,5 +9,6 @@ def generate_file_with_specifics(output_path, patient: PatientModel):
 
     export(dataset=CTDatasetFactory(
         PatientName=patient.patient_name,
-        PatientID=patient.patient_id),
+        PatientID=patient.patient_id,
+        PatientComments=patient.patient_name+patient.patient_id),
         path=output_path)

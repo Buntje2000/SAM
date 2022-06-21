@@ -9,7 +9,4 @@ LABEL Philips Medical Systems Affiniti 70G # (ANB)
   + contains Manufacturer Philips Medical Systems
   + equals Rows 768
   + contains ManufacturerModelName Affiniti 70G
-  coordinates 10,22,31,53
-  coordinates 352,151,367,171
-  coordinates 583,203,592,230
-  coordinates 257,557,264,567
+  coordinates 445,50,358,493

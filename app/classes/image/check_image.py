@@ -1,5 +1,8 @@
 import os
 from deid.dicom import get_files, has_burned_pixels
+import logging
+
+logger = logging.getLogger('file')
 
 
 class CheckImage:
