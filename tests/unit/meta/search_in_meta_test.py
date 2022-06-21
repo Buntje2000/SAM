@@ -7,19 +7,18 @@ from tests.helper import Helper
 
 _helper = Helper()
 _patient = _helper.create_fake_patient()
-_replacement = str(random.randint(100, 999999))
 
 generate_file_with_specifics("unitTestDicom.dcm", _patient)
 
 _dicom = DicomReception.get_dicom("unitTestDicom.dcm")
 patientInfo = PatientInfoExtraction.get_patient_info(_dicom)
-metaFields = SearchInMeta.search_for_patient_info(
-    _dicom, patientInfo, replacement=_replacement)
+foundFields = SearchInMeta.search_for_patient_info(
+    _dicom, patientInfo)
 
 
 def test_search_in_meta():
-    for x in metaFields:
+    for x in foundFields:
         if str(x[0]) == '(0010, 0010)':
-            assert x[1] == _replacement
+            assert x[1] == _patient.patient_name
         elif str(x[0]) == '(0010, 0020)':
-            assert x[1] == _replacement
+            assert x[1] == _patient.patient_id

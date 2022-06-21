@@ -19,7 +19,7 @@ class SearchInMeta:
 
         threshold = getMetaThreshold()
 
-        anonimyzedFields = []
+        foundValues = []
         fieldsToSkip = ["AE", "AS", "AT", "DA", "DT", "FL", "FD", "IS", "OB",
                         "OD", "OF", "OW", "SL", "SQ", "SS", "TM", "UI", "UL", "US", "UN"]
 
@@ -38,7 +38,7 @@ class SearchInMeta:
                             # if patientName.family_name != "" and patientName.family_name in value:
                             itemsFound += 1
 
-                            anonimyzedFields.append(
+                            foundValues.append(
                                 [elem.tag,
                                     value])
                     except Exception as e:
@@ -52,12 +52,12 @@ class SearchInMeta:
 
                             if str(elem.tag) == '(0010, 0010)':
 
-                                anonimyzedFields.append(
+                                foundValues.append(
                                     [elem.tag,
                                      value]
                                 )
                             else:
-                                anonimyzedFields.append(
+                                foundValues.append(
                                     [elem.tag,
                                      value]
                                 )
@@ -73,7 +73,7 @@ class SearchInMeta:
                             # newString = str(elem.value).replace(
                             #     value, idReplacement)
 
-                            anonimyzedFields.append(
+                            foundValues.append(
                                 [elem.tag,
                                  value]
                             )
@@ -86,4 +86,6 @@ class SearchInMeta:
         logger.debug(
             "Aantal items met persoonsgegevens gevonden: " + str(itemsFound))
 
-        return anonimyzedFields
+        print(foundValues)
+
+        return foundValues
