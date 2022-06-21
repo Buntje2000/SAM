@@ -33,6 +33,8 @@ def meta_clean(file, replacement) -> FileDataset:
 
     logger.info("Looptijd meta-pipeline: %s seconden\n" %
                 round(time.time() - start_time, 3))
+    
+    cleanMeta.save_as("cleanMetaTest3.dcm")
 
     return cleanMeta
 
@@ -54,6 +56,8 @@ def pixel_scan(file, search, profile) -> dict:
 
     logger.info("Looptijd image-pipeline: %s seconden\n" %
                 round(time.time() - start_time, 3))
+
+    print(dict(result))
 
     return dict(result)
 
