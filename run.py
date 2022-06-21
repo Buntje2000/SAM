@@ -18,10 +18,17 @@ args = vars(ap.parse_args())
 # Start pipelines
 action = args["action"]
 
-match action:
-    case "m":
-        meta_cleaner(args["image"], args["replacement"])
-    case "ps":
-        pixel_search(args["image"], args["search"], args["profile"])
-    case "pc":
-        pixel_cleaner(args["image"], args["search"], args["profile"])
+# match action:
+#     case "m":
+#         meta_cleaner(args["image"], args["replacement"])
+#     case "ps":
+#         pixel_search(args["image"], args["search"], args["profile"])
+#     case "pc":
+#         pixel_cleaner(args["image"], args["search"], args["profile"])
+
+if action == "m":
+    meta_cleaner(args["image"], args["replacement"])
+elif action == "ps":
+    pixel_search(args["image"], args["search"], args["profile"])
+elif action == "pc":
+    pixel_cleaner(args["image"], args["search"], args["profile"])
