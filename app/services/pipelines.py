@@ -13,7 +13,7 @@ logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('file')
 
 
-def meta_cleaner(file, replacement) -> FileDataset:
+def meta_clean(file, replacement) -> FileDataset:
     '''
     Verwijder/vervang persoonsnaam, id & geboortedatum uit alle metavelden. 
     Als er een replacement waarde is aangegeven worden de persoonsgegevens vervangen door de opgegeven waarde.
@@ -34,10 +34,12 @@ def meta_cleaner(file, replacement) -> FileDataset:
     logger.info("Looptijd meta-pipeline: %s seconden\n" %
                 round(time.time() - start_time, 3))
 
+    cleanMeta.save_as("cleanMetaTest3.dcm")
+
     return cleanMeta
 
 
-def pixel_search(file, search, profile) -> dict:
+def pixel_scan(file, search, profile) -> dict:
     '''Zoek in de afbeelding naar persoonsnaam & id'''
     # Image
     start_time = time.time()
@@ -55,10 +57,12 @@ def pixel_search(file, search, profile) -> dict:
     logger.info("Looptijd image-pipeline: %s seconden\n" %
                 round(time.time() - start_time, 3))
 
+    print(dict(result))
+
     return dict(result)
 
 
-def pixel_cleaner(path, search, profile):
+def pixel_clean(path, search, profile):
     '''
     Verwijder persoonsnaam & id uit de afbeelding. Heeft pad en profiel nodig. 
     Slaat schone afbeelding op in map. Zie config.ini -> output_folder.
@@ -76,9 +80,9 @@ def pixel_cleaner(path, search, profile):
         processed_image, patientInfo, image, profile, dicomFile, search)
 
     # Pixels schoonmaken
-    foundText = RecognizeText.add_coordinates_to_file(
+    RecognizeText.add_coordinates_to_file(
         coordinates=coordinates, dicomFile=dicomFile)
-    if foundText != None:
+    if coordinates != None:
         ManipulatePixels.manipulate_pixels(path)
 
     logger.info("Looptijd imagecleaner-pipeline: %s seconden\n" %

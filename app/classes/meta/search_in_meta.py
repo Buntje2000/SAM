@@ -22,6 +22,8 @@ class SearchInMeta:
         foundValues = []
         fieldsToSkip = ["AE", "AS", "AT", "DA", "DT", "FL", "FD", "IS", "OB",
                         "OD", "OF", "OW", "SL", "SQ", "SS", "TM", "UI", "UL", "US", "UN"]
+        dataToFind = [patientName.family_name,
+                        patientName.given_name, patientInfo.patient_id]
 
         for elem in dicom.iterall():
             count += 1
@@ -32,51 +34,21 @@ class SearchInMeta:
                 values = valueSplitter(stringSplitter(str(elem.value)))
 
                 for value in values:
-                    # Als de gevonden waarde (deels) overeenkomt met de achternaam van de patient, dan moet deze worden vervangen.
+                    # Als de gevonden waarde (deels) overeenkomt met de gezochte waarde, dan moet deze worden vervangen.
                     try:
-                        if patientName.family_name != '' and similarity(value, patientName.family_name) > threshold:
-                            # if patientName.family_name != "" and patientName.family_name in value:
-                            itemsFound += 1
-
-                            foundValues.append(
-                                [elem.tag,
-                                    value])
-                    except Exception as e:
-                        logger.warning(e)
-
-                    # Als de gevonden waarde (deels) overeenkomt met de voornaam van de patient, dan moet deze worden vervangen.
-                    try:
-                        if patientName.given_name != '' and similarity(value, patientName.given_name) > threshold:
-                            # if patientName.given_name != "" and patientName.given_name in value:
-                            itemsFound += 1
-
-                            if str(elem.tag) == '(0010, 0010)':
+                        for i in range(len(dataToFind)):
+                            if dataToFind[i] != '' and similarity(value, dataToFind[i]) > threshold:
+                                itemsFound += 1
 
                                 foundValues.append(
                                     [elem.tag,
-                                     value]
-                                )
-                            else:
+                                        value])
+                            elif dataToFind[i] != '' and dataToFind[i] in value:
+                                itemsFound += 1
+
                                 foundValues.append(
                                     [elem.tag,
-                                     value]
-                                )
-                    except Exception as e:
-                        logger.warning(e)
-
-                    # Als de gevonden waarde (deels) overeenkomt met het ID van de patient, dan moet deze worden vervangen.
-                    try:
-                        if patientInfo.patient_id != '' and similarity(value, patientInfo.patient_id) > threshold:
-                            # if patientInfo.patient_id != "" and patientInfo.patient_id in value:
-                            itemsFound += 1
-
-                            # newString = str(elem.value).replace(
-                            #     value, idReplacement)
-
-                            foundValues.append(
-                                [elem.tag,
-                                 value]
-                            )
+                                        value])
                     except Exception as e:
                         logger.warning(e)
 

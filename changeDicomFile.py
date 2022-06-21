@@ -1,7 +1,7 @@
 from pydicom import FileDataset, dcmread
 
 
-file = "testDicom3.dcm"
+file = "testDicom2.dcm"
 
 try:
     if isinstance(file, FileDataset):
@@ -15,4 +15,4 @@ dicomFile.PatientName = "Bunt^Alexander"
 dicomFile.PatientID = "184950"
 dicomFile.PatientComments = "Bunq184951"
 
-dicomFile.save_as("nameTestDicom.dcm")
+dicomFile.save_as("nameTestDicom2.dcm")

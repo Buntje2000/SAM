@@ -6,9 +6,9 @@ logger = logging.getLogger('file')
 
 
 class ManipulatePixels:
-    def manipulate_pixels(tmpDir):
+    def manipulate_pixels(path):
 
-        dicom_file = list(get_files(tmpDir))[0]
+        dicom_file = path
 
         dir = None
         try:
@@ -29,6 +29,7 @@ class ManipulatePixels:
                               deid=deidFiles)
         client.detect(dicom_file)
         client.clean()
+
         client.save_dicom()
 
         logger.info(
