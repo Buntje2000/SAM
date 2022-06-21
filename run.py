@@ -1,5 +1,5 @@
 import argparse
-from app.services.pipelines import meta_cleaner, pixel_search, pixel_cleaner
+from app.services.pipelines import meta_clean, pixel_scan, pixel_clean
 
 
 ap = argparse.ArgumentParser()
@@ -19,8 +19,8 @@ args = vars(ap.parse_args())
 action = args["action"]
 
 if action == "m":
-    meta_cleaner(args["image"], args["replacement"])
+    meta_clean(args["image"], args["replacement"])
 elif action == "ps":
-    pixel_search(args["image"], args["search"], args["profile"])
+    pixel_scan(args["image"], args["search"], args["profile"])
 elif action == "pc":
-    pixel_cleaner(args["image"], args["search"], args["profile"])
+    pixel_clean(args["image"], args["search"], args["profile"])

@@ -13,7 +13,7 @@ logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('file')
 
 
-def meta_cleaner(file, replacement) -> FileDataset:
+def meta_clean(file, replacement) -> FileDataset:
     '''
     Verwijder/vervang persoonsnaam, id & geboortedatum uit alle metavelden. 
     Als er een replacement waarde is aangegeven worden de persoonsgegevens vervangen door de opgegeven waarde.
@@ -37,7 +37,7 @@ def meta_cleaner(file, replacement) -> FileDataset:
     return cleanMeta
 
 
-def pixel_search(file, search, profile) -> dict:
+def pixel_scan(file, search, profile) -> dict:
     '''Zoek in de afbeelding naar persoonsnaam & id'''
     # Image
     start_time = time.time()
@@ -58,7 +58,7 @@ def pixel_search(file, search, profile) -> dict:
     return dict(result)
 
 
-def pixel_cleaner(path, search, profile):
+def pixel_clean(path, search, profile):
     '''
     Verwijder persoonsnaam & id uit de afbeelding. Heeft pad en profiel nodig. 
     Slaat schone afbeelding op in map. Zie config.ini -> output_folder.
