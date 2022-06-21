@@ -16,7 +16,9 @@ ap.add_argument("-r", "--replacement", required=False,
 args = vars(ap.parse_args())
 
 # Start pipelines
-match args["action"]:
+action = args["action"]
+
+match action:
     case "m":
         meta_cleaner(args["image"], args["replacement"])
     case "ps":
