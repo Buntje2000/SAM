@@ -17,7 +17,7 @@ class SearchInMeta:
         itemsFound = 0
         patientName: pydicom.valuerep.PersonName = patientInfo.patient_name
 
-        threshold = getMetaThreshold
+        threshold = getMetaThreshold()
 
         anonimyzedFields = []
         fieldsToSkip = ["AE", "AS", "AT", "DA", "DT", "FL", "FD", "IS", "OB",

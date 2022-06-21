@@ -1,7 +1,6 @@
-import difflib
-import re
-from app.config import config
 import logging
+from app.config import config
+import re
 
 logger = logging.getLogger('file')
 
@@ -50,5 +49,3 @@ def getMetaThreshold():
             "Meta threshold is niet goed ingesteld. Standaardwaarde wordt gebruikt (0.8). Controleer config.ini")
 
     return threshold
-
-
