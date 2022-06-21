@@ -33,7 +33,7 @@ def meta_clean(file, replacement) -> FileDataset:
 
     logger.info("Looptijd meta-pipeline: %s seconden\n" %
                 round(time.time() - start_time, 3))
-    
+
     cleanMeta.save_as("cleanMetaTest3.dcm")
 
     return cleanMeta
@@ -80,9 +80,9 @@ def pixel_clean(path, search, profile):
         processed_image, patientInfo, image, profile, dicomFile, search)
 
     # Pixels schoonmaken
-    foundText = RecognizeText.add_coordinates_to_file(
+    RecognizeText.add_coordinates_to_file(
         coordinates=coordinates, dicomFile=dicomFile)
-    if foundText != None:
+    if coordinates != None:
         ManipulatePixels.manipulate_pixels(path)
 
     logger.info("Looptijd imagecleaner-pipeline: %s seconden\n" %
