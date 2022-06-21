@@ -1,4 +1,3 @@
-from distutils.command.clean import clean
 import time
 from pydicom import FileDataset
 from app.classes.services.dicom_reception import DicomReception
