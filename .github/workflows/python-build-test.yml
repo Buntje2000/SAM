@@ -36,10 +36,13 @@ jobs:
       - name: Install Tesseract
         run: |
           sudo apt install tesseract-ocr
-      - name: Install Pytest
+      - name: Install PyTest
         run: |
           pip install pytest==7.1.1
           pip install pytest-cov==3.0.0
+      - name: Install PyDicom
+        run: |
+          pip install pydicom==2.1.1
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
