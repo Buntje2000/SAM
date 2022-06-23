@@ -1,4 +1,4 @@
-# Smart-Systems-AMC
+# SAM - Smart Anonymizer for Metadata (and Images)
 
 ## Setup
 
